@@ -9,3 +9,6 @@ struct API {
     
     static let newsFeed = "/method/newsfeed.get"
 }
+
+
+

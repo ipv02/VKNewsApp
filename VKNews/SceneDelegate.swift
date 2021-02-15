@@ -3,7 +3,7 @@
 import UIKit
 import VKSdkFramework
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate, AuthServiceDelegate {
+class SceneDelegate: UIResponder, UIWindowSceneDelegate, AuthServiceDelegateProtocol {
     
     var window: UIWindow?
     var authService: AuthService!
