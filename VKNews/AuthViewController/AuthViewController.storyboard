@@ -39,6 +39,9 @@
                             <constraint firstItem="3qw-Qw-epz" firstAttribute="centerX" secondItem="Ngv-V8-Y8b" secondAttribute="centerX" id="Wnp-Zg-Ylh"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="button" destination="3qw-Qw-epz" id="eoA-dB-sp1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZF4-nx-m8I" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
