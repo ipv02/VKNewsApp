@@ -4,15 +4,15 @@ import UIKit
 
 class WebImageView: UIImageView {
     
-    func set(imageURL: String) {
-        guard let url = URL(string: imageURL) else { return }
+    func set(imageURL: String?) {
+        guard let imageURL = imageURL, let url = URL(string: imageURL) else {
+            self.image = nil
+            return }
         
         if let cachedResponse = URLCache.shared.cachedResponse(for: URLRequest(url: url)) {
             self.image = UIImage(data: cachedResponse.data)
-            print("From cache")
             return
         }
-        print("From internet")
         
         URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
             DispatchQueue.main.async {
