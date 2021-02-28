@@ -237,37 +237,41 @@ final class NewsfeedCodeCell: UITableViewCell {
         }
     }
     
-    private func overlayFourthLayerOnBottomView() {
-        likesView.addSubview(likesImage)
-        likesView.addSubview(likesLabel)
+    //MARK: - OverlayFirstLayer
+    private func overlayFirstLayer() {
+        //addSubview(cardView)
+        contentView.addSubview(cardView)
         
-        commentsView.addSubview(commentsImage)
-        commentsView.addSubview(commentsLabel)
-        
-        sharesView.addSubview(sharesImage)
-        sharesView.addSubview(sharesLabel)
-        
-        viewsView.addSubview(viewsImage)
-        viewsView.addSubview(viewsLabel)
-        
-        helpInFourthLayer(view: likesView, imageView: likesImage, label: likesLabel)
-        helpInFourthLayer(view: commentsView, imageView: commentsImage, label: commentsLabel)
-        helpInFourthLayer(view: sharesView, imageView: sharesImage, label: sharesLabel)
-        helpInFourthLayer(view: viewsView, imageView: viewsImage, label: viewsLabel)
+        // CardView constraints
+        cardView.fillSuperview(padding: Constants.cardsInsets)
     }
     
-    private func helpInFourthLayer(view: UIView, imageView: UIImageView, label: UILabel) {
+    //MARK: - OverlaySecondLayer
+    private func overlaySecondLayer() {
+        cardView.addSubview(topView)
+        cardView.addSubview(postLabel)
+        cardView.addSubview(moreTextButton)
+        cardView.addSubview(postImageView)
+        cardView.addSubview(galleryCollectionView)
+        cardView.addSubview(bottomView)
         
-        //ImageView constraints
-        imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: Constants.bottomViewViewsIconSize).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: Constants.bottomViewViewsIconSize).isActive = true
+        // TopView constraints
+        topView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 8).isActive = true
+        topView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -8).isActive = true
+        topView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 8).isActive = true
+        topView.heightAnchor.constraint(equalToConstant: Constants.topViewHeight).isActive = true
         
-        //Label constraints
-        label.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        label.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 4).isActive = true
-        label.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        // PostLabel constraints
+        // not necessary since the dimensions are set dynamically
+        
+        // MoreTextButton constraints
+        
+        
+        // PostImageView constraints
+        // not necessary since the dimensions are set dynamically
+        
+        // BottomView constraints
+        // not necessary since the dimensions are set dynamically
     }
     
     //MARK: - OverlayThirdLayeronBottomView
@@ -331,43 +335,39 @@ final class NewsfeedCodeCell: UITableViewCell {
         dateLabel.heightAnchor.constraint(equalToConstant: 14).isActive = true
     }
     
-    //MARK: - OverlaySecondLayer
-    private func overlaySecondLayer() {
-        cardView.addSubview(topView)
-        cardView.addSubview(postLabel)
-        cardView.addSubview(moreTextButton)
-        cardView.addSubview(postImageView)
-        cardView.addSubview(galleryCollectionView)
-        cardView.addSubview(bottomView)
+    //MARK: - OverlayFourthLayerOnBottomView
+    private func overlayFourthLayerOnBottomView() {
+        likesView.addSubview(likesImage)
+        likesView.addSubview(likesLabel)
         
-        // TopView constraints
-        topView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 8).isActive = true
-        topView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -8).isActive = true
-        topView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 8).isActive = true
-        topView.heightAnchor.constraint(equalToConstant: Constants.topViewHeight).isActive = true
+        commentsView.addSubview(commentsImage)
+        commentsView.addSubview(commentsLabel)
         
-        // PostLabel constraints
-        // not necessary since the dimensions are set dynamically
+        sharesView.addSubview(sharesImage)
+        sharesView.addSubview(sharesLabel)
         
-        // MoreTextButton constraints
+        viewsView.addSubview(viewsImage)
+        viewsView.addSubview(viewsLabel)
         
-        
-        // PostImageView constraints
-        // not necessary since the dimensions are set dynamically
-        
-        // BottomView constraints
-        // not necessary since the dimensions are set dynamically
+        helpInFourthLayer(view: likesView, imageView: likesImage, label: likesLabel)
+        helpInFourthLayer(view: commentsView, imageView: commentsImage, label: commentsLabel)
+        helpInFourthLayer(view: sharesView, imageView: sharesImage, label: sharesLabel)
+        helpInFourthLayer(view: viewsView, imageView: viewsImage, label: viewsLabel)
     }
     
-    //MARK: - OverlayFirstLayer
-    private func overlayFirstLayer() {
-        addSubview(cardView)
+    private func helpInFourthLayer(view: UIView, imageView: UIImageView, label: UILabel) {
         
-        // CardView constraints
-        cardView.fillSuperview(padding: Constants.cardsInsets)
+        //ImageView constraints
+        imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: Constants.bottomViewViewsIconSize).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: Constants.bottomViewViewsIconSize).isActive = true
+        
+        //Label constraints
+        label.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        label.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 4).isActive = true
+        label.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
-    
-    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
