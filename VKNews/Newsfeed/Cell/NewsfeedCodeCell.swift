@@ -46,6 +46,9 @@ final class NewsfeedCodeCell: UITableViewCell {
         return button
     }()
     
+    //MARK: -  CollectionView
+    let galleryCollectionView = GalleryCollectionView()
+    
     let postImageView: WebImageView = {
         let imageView = WebImageView()
         imageView.backgroundColor = #colorLiteral(red: 0.8901960784, green: 0.8980392157, blue: 0.9098039216, alpha: 1)
@@ -214,15 +217,23 @@ final class NewsfeedCodeCell: UITableViewCell {
         viewsLabel.text = viewModel.view
         
         postLabel.frame = viewModel.size.postLableFrame
-        postImageView.frame = viewModel.size.attachmentFrame
+        
         bottomView.frame = viewModel.size.bottomViewFrame
         moreTextButton.frame = viewModel.size.moreTextButtonFrame
         
-        if let photoAttachment = viewModel.photoAttachment {
-            postImageView.set(imageURL: photoAttachment.photoUrlString ?? "")
+        if let photoAttachment = viewModel.photoAttachments.first, viewModel.photoAttachments.count == 1 {
+            postImageView.set(imageURL: photoAttachment.photoUrlString)
             postImageView.isHidden = false
+            galleryCollectionView.isHidden = true
+            postImageView.frame = viewModel.size.attachmentFrame
+        } else if viewModel.photoAttachments.count > 1 {
+            galleryCollectionView.frame = viewModel.size.attachmentFrame
+            postImageView.isHidden = true
+            galleryCollectionView.isHidden = false
+            galleryCollectionView.set(photos: viewModel.photoAttachments)
         } else {
             postImageView.isHidden = true
+            galleryCollectionView.isHidden = true
         }
     }
     
@@ -259,6 +270,7 @@ final class NewsfeedCodeCell: UITableViewCell {
         label.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
     
+    //MARK: - OverlayThirdLayeronBottomView
     private func overlayThirdLayeronBottomView() {
         bottomView.addSubview(likesView)
         bottomView.addSubview(commentsView)
@@ -274,17 +286,17 @@ final class NewsfeedCodeCell: UITableViewCell {
         
         // CommentsView constraints
         commentsView.anchor(top: bottomView.topAnchor,
-                         leading: likesView.trailingAnchor,
-                         bottom: nil,
-                         trailing: nil,
-                         size: CGSize(width: Constants.bottomViewWidth, height: Constants.bottomViewHeight))
+                            leading: likesView.trailingAnchor,
+                            bottom: nil,
+                            trailing: nil,
+                            size: CGSize(width: Constants.bottomViewWidth, height: Constants.bottomViewHeight))
         
         // SharesView constraints
         sharesView.anchor(top: bottomView.topAnchor,
-                         leading: commentsView.trailingAnchor,
-                         bottom: nil,
-                         trailing: nil,
-                         size: CGSize(width: Constants.bottomViewWidth, height: Constants.bottomViewHeight))
+                          leading: commentsView.trailingAnchor,
+                          bottom: nil,
+                          trailing: nil,
+                          size: CGSize(width: Constants.bottomViewWidth, height: Constants.bottomViewHeight))
         
         // ViewsView constraints
         viewsView.anchor(top: bottomView.topAnchor,
@@ -294,6 +306,7 @@ final class NewsfeedCodeCell: UITableViewCell {
                          size: CGSize(width: Constants.bottomViewWidth, height: Constants.bottomViewHeight))
     }
     
+    //MARK: - OverlayThirdLayerOnTopView
     private func overlayThirdLayerOnTopView() {
         topView.addSubview(iconImageView)
         topView.addSubview(nameLabel)
@@ -318,11 +331,13 @@ final class NewsfeedCodeCell: UITableViewCell {
         dateLabel.heightAnchor.constraint(equalToConstant: 14).isActive = true
     }
     
+    //MARK: - OverlaySecondLayer
     private func overlaySecondLayer() {
         cardView.addSubview(topView)
         cardView.addSubview(postLabel)
         cardView.addSubview(moreTextButton)
         cardView.addSubview(postImageView)
+        cardView.addSubview(galleryCollectionView)
         cardView.addSubview(bottomView)
         
         // TopView constraints
@@ -344,6 +359,7 @@ final class NewsfeedCodeCell: UITableViewCell {
         // not necessary since the dimensions are set dynamically
     }
     
+    //MARK: - OverlayFirstLayer
     private func overlayFirstLayer() {
         addSubview(cardView)
         

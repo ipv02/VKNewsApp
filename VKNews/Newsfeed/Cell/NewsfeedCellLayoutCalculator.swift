@@ -10,16 +10,8 @@ struct Sizes: FeddCellSizeProtocol {
     var totalHeight: CGFloat
 }
 
-//struct Constants {
-//    static let cardsInsets = UIEdgeInsets(top: 0, left: 12, bottom: 11, right: 12)
-//    static let topViewHeight: CGFloat = 36
-//    static let postLabelInsets = UIEdgeInsets(top: 8 + Constants.topViewHeight + 8, left: 8, bottom: 8, right: 8)
-//    static let postLabelFont = UIFont.systemFont(ofSize: 15)
-//    static let bottomViewHeight: CGFloat = 47
-//}
-
 protocol FeedCellLayoutCalculatorProtocol {
-    func sizes(postText: String?, photoAttachment: FeedCellPhotoAttachmentViewModelProtocol?, isFullSizedPost: Bool) -> FeddCellSizeProtocol
+    func sizes(postText: String?, photoAttachments: [FeedCellPhotoAttachmentViewModelProtocol], isFullSizedPost: Bool) -> FeddCellSizeProtocol
 }
 
 final class FeedCellLayoutCalculator: FeedCellLayoutCalculatorProtocol {
@@ -32,7 +24,7 @@ final class FeedCellLayoutCalculator: FeedCellLayoutCalculatorProtocol {
     
     
     
-    func sizes(postText: String?, photoAttachment: FeedCellPhotoAttachmentViewModelProtocol?, isFullSizedPost: Bool) -> FeddCellSizeProtocol {
+    func sizes(postText: String?, photoAttachments: [FeedCellPhotoAttachmentViewModelProtocol], isFullSizedPost: Bool) -> FeddCellSizeProtocol {
         
         var showMoreTextButton = false
         
@@ -74,11 +66,22 @@ final class FeedCellLayoutCalculator: FeedCellLayoutCalculatorProtocol {
         let attachmentTop = postLabelFrame.size == CGSize.zero ? Constants.postLabelInsets.top : moreTextButtonFrame.maxY + Constants.postLabelInsets.bottom
         var attachmentFrame = CGRect(origin: CGPoint(x: 0, y: attachmentTop), size: CGSize.zero)
         
-        if let attachment = photoAttachment {
+//        if let attachment = photoAttachment {
+//            let photoHeight: Float = Float(attachment.height)
+//            let photoWidth: Float = Float(attachment.width)
+//            let ratio = CGFloat(photoHeight / photoWidth)
+//            attachmentFrame.size = CGSize(width: cardViewWidth, height: cardViewWidth * ratio)
+//        }
+        if let attachment = photoAttachments.first {
             let photoHeight: Float = Float(attachment.height)
             let photoWidth: Float = Float(attachment.width)
             let ratio = CGFloat(photoHeight / photoWidth)
-            attachmentFrame.size = CGSize(width: cardViewWidth, height: cardViewWidth * ratio)
+            
+            if photoAttachments.count == 1 {
+                attachmentFrame.size = CGSize(width: cardViewWidth, height: cardViewWidth * ratio)
+            } else if photoAttachments.count > 1 {
+                attachmentFrame.size = CGSize(width: cardViewWidth, height: cardViewWidth * ratio)
+            }
         }
         
         //MARK: BottomViewFrame
