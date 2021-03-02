@@ -10,12 +10,18 @@ class AuthViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        button.layer.cornerRadius = 10
         
         authService = SceneDelegate.shared().authService
-        view.backgroundColor = .systemBlue
+        
+        setupUIButton()
     }
-
+    
+    private func setupUIButton() {
+        button.layer.cornerRadius = 10
+        button.layer.shadowRadius = 3
+        button.layer.shadowOpacity = 0.4
+        button.layer.shadowOffset = CGSize(width: 2.5, height: 4)
+    }
 
     @IBAction func signInTouch(_ sender: UIButton) {
         authService.wakeUpSession()
